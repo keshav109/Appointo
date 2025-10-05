@@ -1,9 +1,9 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import api from '../../api/axios';
 
 // The async thunk handles the API call
 export const fetchDoctors = createAsyncThunk('doctors/fetchDoctors', async () => {
-  const response = await axios.get('/api/doctors/get-all-doctors');
+  const response = await api.get('/api/doctors/get-all-doctors');
   return response.data.data;
 });
 
