@@ -7,25 +7,27 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:5001',
+        target: process.env.VITE_API_URL || 'https://appointo-98sd.onrender.com',
         changeOrigin: true,
-      },
-    },
+        secure: false,
+        rewrite: (path) => path.replace(/^\/api/, '/api')
+      }
+    }
   },
   build: {
+    outDir: 'dist',
     assetsDir: 'assets',
     rollupOptions: {
       output: {
-        assetFileNames: (assetInfo) => {
-          const info = assetInfo.name.split('.');
-          const ext = info.pop();
-          const name = info.join('.');
-          return `assets/${name}-[hash][extname]`;
-        },
-        chunkFileNames: 'assets/[name]-[hash].js',
-        entryFileNames: 'assets/[name]-[hash].js',
-      },
+        manualChunks: undefined
+      }
     },
     sourcemap: true,
+    // Ensure assets in public folder are copied to build output
+    copyPublicDir: true
   },
+  // Properly handle public directory
+  publicDir: 'public',
+  // Base public path for production
+  base: '/'
 })

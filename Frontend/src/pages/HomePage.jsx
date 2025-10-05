@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import DoctorCard from "../components/DoctorCard";
-import doctorImage from '../assets/doctorh.png';
 import api from '../api/axios';
 
 const HomePage = () => {
@@ -82,7 +81,7 @@ const HomePage = () => {
             </div>
             <div className="hidden lg:block">
               <img
-                src={doctorImage}
+                src="/images/doctorh.png"
                 alt="Healthcare Professional"
                 className="w-full h-auto rounded-2xl shadow-2xl transform hover:scale-105 transition-transform duration-500"
               />
