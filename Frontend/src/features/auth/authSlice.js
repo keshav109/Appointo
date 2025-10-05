@@ -4,7 +4,7 @@ import axios from 'axios';
 // Async thunk for user login
 export const loginUser = createAsyncThunk('auth/loginUser', async (credentials, { rejectWithValue }) => {
   try {
-    const response = await axios.post('/api/users/login', credentials);
+     const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/users/login`, credentials);
     // Assuming the backend sends back user info and a token
     localStorage.setItem('token', response.data.token);
     return response.data;
