@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../../api/axios';
 
 // The async thunk handles the API call
+
 export const fetchDoctors = createAsyncThunk(
   'doctors/fetchDoctors',
   async (_, { rejectWithValue }) => {
@@ -20,6 +21,7 @@ export const fetchDoctors = createAsyncThunk(
     }
   }
 );
+
 
 const initialState = {
   list: [],
