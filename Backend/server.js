@@ -8,7 +8,8 @@ const uploadRoutes = require('./routes/uploadRoutes');
 const userRoutes = require('./routes/userRoutes');
 const doctorRoutes = require('./routes/doctorRoutes');
 const adminRoutes = require('./routes/adminRoutes');
-const doctorDashboardRoutes = require('./routes/doctorDashboardRoutes'); // Ensure this is imported
+const doctorDashboardRoutes = require('./routes/doctorDashboardRoutes');
+const patientRoutes = require('./routes/patientRoutes'); // Add patient routes
 
 const app = express();
 const port = process.env.PORT || 5001;
@@ -26,6 +27,7 @@ mongoose.connect(process.env.MONGO_URI)
 app.use('/api/users', userRoutes);
 app.use('/api/doctors', doctorRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/patient', patientRoutes);
 
 // This line registers your doctor dashboard routes. It's crucial.
 app.use('/api/doctor-dashboard', doctorDashboardRoutes);

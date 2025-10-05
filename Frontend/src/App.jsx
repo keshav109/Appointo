@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import axios from 'axios';
+import { ThemeProvider } from './context/ThemeContext';
 
 // --- Import Pages and Components ---
 import HomePage from './pages/HomePage';
@@ -9,7 +10,8 @@ import SignUpPage from './pages/SignUpPage';
 import BookingPage from './pages/BookingPage';
 import AppointmentsPage from './pages/AppointmentsPage';
 import AdminDashboard from './pages/AdminDashboard';
-import DoctorDashboard from './pages/DoctorDashboard'; // Corrected filename case
+import DoctorDashboard from './pages/DoctorDashboard';
+import PatientDashboard from './pages/PatientDashboard';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import DoctorDetailsPage from './pages/DoctorDetailsPage';
@@ -41,26 +43,27 @@ function App() {
   }
 
   return (
-    <Router>
-      <div className="flex flex-col min-h-screen bg-gray-50">
-        <Navbar user={user} />
-        <main className="flex-grow">
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/signup" element={<SignUpPage />} />
-            <Route path="/book/:doctorId" element={<BookingPage user={user} />} />
-            <Route path="/my-appointments" element={<AppointmentsPage user={user} />} />
-            <Route path="/admin" element={<AdminDashboard user={user} />} />
-            
-            {/* Corrected the path to match the URL you are trying to visit */}
-            <Route path="/doctor/dashboard" element={<DoctorDashboard user={user} />} />
-            <Route path="/doctor/:id" element={<DoctorDetailsPage user={user} />} />
-          </Routes>
-        </main>
-        <Footer />
-      </div>
-    </Router>
+    <ThemeProvider>
+      <Router>
+        <div className="flex flex-col min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
+          <Navbar user={user} />
+          <main className="flex-grow">
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/signup" element={<SignUpPage />} />
+              <Route path="/book/:doctorId" element={<BookingPage user={user} />} />
+              <Route path="/my-appointments" element={<AppointmentsPage user={user} />} />
+              <Route path="/admin" element={<AdminDashboard user={user} />} />
+              <Route path="/doctor/dashboard" element={<DoctorDashboard user={user} />} />
+              <Route path="/doctor/:id" element={<DoctorDetailsPage user={user} />} />
+              <Route path="/patient/dashboard" element={<PatientDashboard />} />
+            </Routes>
+          </main>
+          <Footer />
+        </div>
+      </Router>
+    </ThemeProvider>
   );
 }
 

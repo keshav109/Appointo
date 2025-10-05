@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import AddDoctorModal from '../components/AddDoctorModal'; // Import the modal
+import { motion } from 'framer-motion';
+import { FaUserMd, FaChartBar, FaHospital, FaTrash } from 'react-icons/fa';
+import Analytics from '../components/admin/Analytics';
+import DepartmentManager from '../components/admin/DepartmentManager';
+import AddDoctorModal from '../components/AddDoctorModal';
 
 const AdminDashboard = () => {
     const [doctors, setDoctors] = useState([]);
@@ -37,6 +41,8 @@ const AdminDashboard = () => {
         getAllDoctors();
     }, []);
 
+    const [activeTab, setActiveTab] = useState('analytics');
+
     return (
         <>
             <AddDoctorModal 
@@ -45,41 +51,108 @@ const AdminDashboard = () => {
                 refreshDoctors={getAllDoctors}
             />
 
-            <div className="container mx-auto px-4 py-8">
-                <h1 className="text-3xl font-bold text-gray-800 mb-6">Admin Dashboard</h1>
-                <div className="bg-white rounded-lg shadow-md p-6">
-                    <div className="flex justify-between items-center mb-4">
-                        <h2 className="text-xl font-semibold">Manage Doctors</h2>
-                        <button 
-                            onClick={() => setIsModalOpen(true)}
-                            className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
+            <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
+                <div className="container mx-auto px-4">
+                    <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-6">Admin Dashboard</h1>
+
+                    {/* Tabs */}
+                    <div className="flex space-x-4 mb-6">
+                        <motion.button
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                            onClick={() => setActiveTab('analytics')}
+                            className={`flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                                activeTab === 'analytics'
+                                    ? 'bg-blue-500 text-white'
+                                    : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
+                            }`}
                         >
-                            Add New Doctor
-                        </button>
+                            <FaChartBar className="text-lg" />
+                            <span>Analytics</span>
+                        </motion.button>
+
+                        <motion.button
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                            onClick={() => setActiveTab('doctors')}
+                            className={`flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                                activeTab === 'doctors'
+                                    ? 'bg-blue-500 text-white'
+                                    : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
+                            }`}
+                        >
+                            <FaUserMd className="text-lg" />
+                            <span>Doctors</span>
+                        </motion.button>
+
+                        <motion.button
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                            onClick={() => setActiveTab('departments')}
+                            className={`flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                                activeTab === 'departments'
+                                    ? 'bg-blue-500 text-white'
+                                    : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
+                            }`}
+                        >
+                            <FaHospital className="text-lg" />
+                            <span>Departments</span>
+                        </motion.button>
                     </div>
-                    <div className="overflow-x-auto">
-                        <table className="min-w-full divide-y divide-gray-200">
-                            <thead className="bg-gray-50">
-                                <tr>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Specialty</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody className="bg-white divide-y divide-gray-200">
-                                {doctors.map(doctor => (
-                                    <tr key={doctor._id}>
-                                        <td className="px-6 py-4 whitespace-nowrap">{doctor.name}</td>
-                                        <td className="px-6 py-4 whitespace-nowrap">{doctor.specialty}</td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                            <button className="text-indigo-600 hover:text-indigo-900 mr-4">Edit</button>
-                                            <button onClick={() => handleDelete(doctor._id)} className="text-red-600 hover:text-red-900">Delete</button>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
+
+                    {/* Tab Content */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.3 }}
+                    >
+                        {activeTab === 'analytics' && <Analytics />}
+                        {activeTab === 'departments' && <DepartmentManager />}
+                        {activeTab === 'doctors' && (
+                            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+                                <div className="flex justify-between items-center mb-6">
+                                    <h2 className="text-2xl font-bold text-gray-800 dark:text-white">Manage Doctors</h2>
+                                    <button
+                                        onClick={() => setIsModalOpen(true)}
+                                        className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center space-x-2"
+                                    >
+                                        <FaUserMd />
+                                        <span>Add Doctor</span>
+                                    </button>
+                                </div>
+
+                                {/* Doctors List */}
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                    {doctors.map((doctor) => (
+                                        <motion.div
+                                            key={doctor._id}
+                                            initial={{ opacity: 0 }}
+                                            animate={{ opacity: 1 }}
+                                            className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg"
+                                        >
+                                            <div className="flex items-start justify-between">
+                                                <div>
+                                                    <h3 className="text-lg font-semibold text-gray-800 dark:text-white">
+                                                        {doctor.name}
+                                                    </h3>
+                                                    <p className="text-gray-600 dark:text-gray-300">{doctor.specialty}</p>
+                                                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                                                        {doctor.phone}
+                                                    </p>
+                                                </div>
+                                                <button
+                                                    onClick={() => handleDelete(doctor._id)}
+                                                    className="text-red-500 hover:text-red-600 transition-colors"
+                                                >
+                                                    <FaTrash />
+                                                </button>
+                                            </div>
+                                        </motion.div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                    </motion.div>
                 </div>
             </div>
         </>

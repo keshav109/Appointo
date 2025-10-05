@@ -27,14 +27,14 @@ const HomePage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-blue-600 to-blue-800">
+      <section className="relative overflow-hidden bg-gradient-to-br from-blue-600 to-blue-800 dark:from-gray-800 dark:to-gray-900">
         <div className="absolute inset-0">
           <svg className="absolute inset-0 h-full w-full" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 1200 600">
-            <path className="text-blue-500 opacity-20" fill="currentColor" d="M0 0h1200v600H0z"/>
-            <circle className="text-blue-400 opacity-20" cx="720" cy="300" r="200" fill="currentColor"/>
-            <circle className="text-blue-300 opacity-20" cx="480" cy="300" r="150" fill="currentColor"/>
+            <path className="text-blue-500 opacity-20 dark:text-gray-700" fill="currentColor" d="M0 0h1200v600H0z"/>
+            <circle className="text-blue-400 opacity-20 dark:text-gray-600" cx="720" cy="300" r="200" fill="currentColor"/>
+            <circle className="text-blue-300 opacity-20 dark:text-gray-500" cx="480" cy="300" r="150" fill="currentColor"/>
           </svg>
         </div>
         <div className="relative max-w-screen-xl px-4 py-16 mx-auto sm:px-6 lg:px-8 lg:py-24">
@@ -49,7 +49,7 @@ const HomePage = () => {
               <div className="mt-8 space-x-4 flex">
                 <a
                   href="#search-doctors"
-                  className="inline-flex items-center px-6 py-3 text-base font-medium text-blue-700 bg-white rounded-lg shadow-md hover:bg-blue-50 transition-all duration-300 transform hover:scale-105"
+                  className="inline-flex items-center px-6 py-3 text-base font-medium text-blue-700 dark:text-blue-300 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:bg-blue-50 dark:hover:bg-gray-700 transition-all duration-300 transform hover:scale-105"
                 >
                   Find a Doctor
                   <svg
@@ -67,7 +67,11 @@ const HomePage = () => {
                 </a>
                 <a
                   href="#contact"
-                  className="inline-flex items-center px-6 py-3 text-base font-medium text-white border-2 border-white rounded-lg hover:bg-white hover:text-blue-700 transition-all duration-300"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  className="inline-flex items-center px-6 py-3 text-base font-medium text-white border-2 border-white rounded-lg hover:bg-white dark:hover:bg-gray-800 hover:text-blue-700 dark:hover:text-blue-300 transition-all duration-300"
                 >
                   Contact Us
                 </a>
@@ -93,7 +97,7 @@ const HomePage = () => {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Search by doctor's name or specialty..."
-              className="w-full px-6 py-4 text-lg border-0 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              className="w-full px-6 py-4 text-lg border-0 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:bg-gray-800 dark:text-gray-100 dark:placeholder-gray-400"
             />
             <button
               type="submit"
