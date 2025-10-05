@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import DoctorCard from "../components/DoctorCard";
+import doctorImage from '../assets/doctorh.png';
+import api from '../api/axios';
 
 const HomePage = () => {
   const [doctors, setDoctors] = useState([]);
@@ -8,12 +9,14 @@ const HomePage = () => {
 
   const getAllDoctors = async (search = "") => {
     try {
-      const res = await axios.get(`/api/doctors/get-all-doctors?search=${search}`);
+      console.log('Fetching doctors with API URL:', import.meta.env.VITE_API_URL);
+      const res = await api.get(`/api/doctors/get-all-doctors${search ? `?search=${search}` : ''}`);
+      console.log('API Response:', res.data);
       if (res.data.success) {
         setDoctors(res.data.data);
       }
     } catch (error) {
-      console.error("Error fetching doctors:", error);
+      console.error("Error fetching doctors:", error.response || error);
     }
   };
 
@@ -79,7 +82,7 @@ const HomePage = () => {
             </div>
             <div className="hidden lg:block">
               <img
-                src="/src/assets/doctorh.png"
+                src={doctorImage}
                 alt="Healthcare Professional"
                 className="w-full h-auto rounded-2xl shadow-2xl transform hover:scale-105 transition-transform duration-500"
               />
